@@ -5,6 +5,50 @@
 
 static DecoderInterface *decoder;
 
+void reset_decoder(int sample_rate, int psk) {
+    switch (sample_rate) {
+    case 8000:
+        switch (psk) {
+        case 2:
+            decoder = new (std::nothrow) Decoder<8000, 2>;
+            break;
+        case 4:
+            decoder = new (std::nothrow) Decoder<8000, 4>;
+            break;
+        case 8:
+            decoder = new (std::nothrow) Decoder<8000, 8>;
+            break;
+        default:
+            std::cerr << "Unsupported symbol mapping.";
+            std::cerr << "Supported PSK: 2/4/8. Supported QAM: 16."
+                      << std::endl;
+            exit(1);
+        }
+        break;
+    case 48000:
+        switch (psk) {
+        case 2:
+            decoder = new (std::nothrow) Decoder<48000, 2>;
+            break;
+        case 4:
+            decoder = new (std::nothrow) Decoder<48000, 4>;
+            break;
+        case 8:
+            decoder = new (std::nothrow) Decoder<48000, 8>;
+            break;
+        default:
+            std::cerr << "Unsupported symbol mapping.";
+            std::cerr << "Supported PSK: 2/4/8. Supported QAM: 16."
+                      << std::endl;
+            exit(1);
+        }
+        break;
+    default:
+        std::cerr << "Unsupported sample rate.";
+        exit(1);
+    }
+}
+
 int main(int argc, char **argv) {
     if (argc < 3 || argc > 4) {
         std::cerr << "usage: " << argv[0] << " FILE CHANNEL [MAPPING]"
@@ -38,13 +82,10 @@ int main(int argc, char **argv) {
         channel = 0;
     }
     int file_length = audioFile.getNumSamplesPerChannel() * channel_count;
-    // int symbol_length = (1280 * rate) / 8000;
-    // int guard_length = symbol_length / 8;
-    // int extended_length = symbol_length + guard_length;
     int record_count = rate / 50;
     int16_t *file = new int16_t[file_length + 22 * record_count];
     for (int i = 0; i < file_length + 22 * record_count; i++) {
-      file[i] = 0;
+        file[i] = 0;
     }
     for (int i = 0; i < file_length / channel_count; i++) {
         for (int c = 0; c < channel_count; c++) {
@@ -52,119 +93,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    switch (rate) {
-    case 8000:
-        switch (psk) {
-        case 2:
-            decoder = new (std::nothrow) Decoder<8000, 2>;
-            break;
-        case 4:
-            decoder = new (std::nothrow) Decoder<8000, 4>;
-            break;
-        case 8:
-            decoder = new (std::nothrow) Decoder<8000, 8>;
-            break;
-        case 16:
-            decoder = new (std::nothrow) Decoder<8000, 16>;
-            break;
-        default:
-            std::cerr << "Unsupported symbol mapping.";
-            std::cerr << "Supported PSK: 2/4/8. Supported QAM: 16."
-                      << std::endl;
-            return 1;
-        }
-        break;
-    case 16000:
-        switch (psk) {
-        case 2:
-            decoder = new (std::nothrow) Decoder<16000, 2>;
-            break;
-        case 4:
-            decoder = new (std::nothrow) Decoder<16000, 4>;
-            break;
-        case 8:
-            decoder = new (std::nothrow) Decoder<16000, 8>;
-            break;
-        case 16:
-            decoder = new (std::nothrow) Decoder<16000, 16>;
-            break;
-        default:
-            std::cerr << "Unsupported symbol mapping.";
-            std::cerr << "Supported PSK: 2/4/8. Supported QAM: 16."
-                      << std::endl;
-            return 1;
-        }
-        break;
-    case 32000:
-        switch (psk) {
-        case 2:
-            decoder = new (std::nothrow) Decoder<32000, 2>;
-            break;
-        case 4:
-            decoder = new (std::nothrow) Decoder<32000, 4>;
-            break;
-        case 8:
-            decoder = new (std::nothrow) Decoder<32000, 8>;
-            break;
-        case 16:
-            decoder = new (std::nothrow) Decoder<32000, 16>;
-            break;
-        default:
-            std::cerr << "Unsupported symbol mapping.";
-            std::cerr << "Supported PSK: 2/4/8. Supported QAM: 16."
-                      << std::endl;
-            return 1;
-        }
-        break;
-    case 44100:
-        switch (psk) {
-        case 2:
-            decoder = new (std::nothrow) Decoder<44100, 2>;
-            break;
-        case 4:
-            decoder = new (std::nothrow) Decoder<44100, 4>;
-            break;
-        case 8:
-            decoder = new (std::nothrow) Decoder<44100, 8>;
-            break;
-        case 16:
-            decoder = new (std::nothrow) Decoder<44100, 16>;
-            break;
-        default:
-            std::cerr << "Unsupported symbol mapping.";
-            std::cerr << "Supported PSK: 2/4/8. Supported QAM: 16."
-                      << std::endl;
-            return 1;
-        }
-        break;
-    case 48000:
-        switch (psk) {
-        case 2:
-            decoder = new (std::nothrow) Decoder<48000, 2>;
-            break;
-        case 4:
-            decoder = new (std::nothrow) Decoder<48000, 4>;
-            break;
-        case 8:
-            decoder = new (std::nothrow) Decoder<48000, 8>;
-            break;
-        case 16:
-            decoder = new (std::nothrow) Decoder<44100, 16>;
-            break;
-        default:
-            std::cerr << "Unsupported symbol mapping.";
-            std::cerr << "Supported PSK: 2/4/8. Supported QAM: 16."
-                      << std::endl;
-            return 1;
-        }
-        break;
-    default:
-        std::cerr << "Unsupported sample rate.";
-        std::cerr << "Supported rates: 8000/16000/32000/44100/48000."
-                  << std::endl;
-        return 1;
-    }
-
+    reset_decoder(rate, psk);
 
     for (int i = 0; i * record_count * channel_count <
                     file_length + 10 * channel_count * record_count;
@@ -182,6 +111,7 @@ int main(int argc, char **argv) {
                 break;
             case 1:
                 std::cout << "PREAMBLE FAIL" << std::endl;
+                reset_decoder(rate, psk);
                 break;
             case 2:
                 decoder->staged(&cfo, &mode, call_sign);
@@ -196,9 +126,11 @@ int main(int argc, char **argv) {
                           << std::endl;
                 std::cout << "DONE:  payload: "
                           << (reinterpret_cast<char *>(payload)) << std::endl;
+                reset_decoder(rate, psk);
                 break;
             case 4:
                 std::cout << "HEAP ERROR" << std::endl;
+                reset_decoder(rate, psk);
                 break;
             case 5:
                 decoder->staged(&cfo, &mode, call_sign);
