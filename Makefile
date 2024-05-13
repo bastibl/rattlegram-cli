@@ -1,8 +1,7 @@
 
-CXXFLAGS = -std=c++17 -W -Wall -Ofast -fno-exceptions -fno-rtti -Wno-reorder-ctor -Wno-vla-cxx-extension
+CXXFLAGS = -std=c++17 -W -Wall -Ofast -fno-exceptions -fno-rtti -Wno-vla-cxx-extension
 CXX = clang++ -stdlib=libc++ -march=native
 CXX = clang++ -march=native
-#CXX = g++ -march=native
 
 #CXX = armv7a-hardfloat-linux-gnueabi-g++ -static -mfpu=neon -march=armv7-a
 #QEMU = qemu-arm

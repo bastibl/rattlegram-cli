@@ -369,8 +369,8 @@ class Decoder : public DecoderInterface {
 
 public:
     Decoder()
-        : correlator(corSeq()), crc(0xA8F4), lowpass(1, symbol_length),
-          window(&hann, &lowpass) {
+        : correlator(corSeq()), lowpass(1, symbol_length),
+          window(&hann, &lowpass), crc(0xA8F4) {
         CODE::BoseChaudhuriHocquenghemGenerator<255, 71>::matrix(generator,
                 true,
                 {0b100011101, 0b101110111, 0b111110011, 0b101101001,

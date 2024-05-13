@@ -18,15 +18,15 @@ Copyright 2022 Ahmet Inan <inan@aicodix.de>
 #include "crc.hh"
 #include "fft.hh"
 #include "mls.hh"
-#include "pcm.hh"
 #include "papr.hh"
+#include "pcm.hh"
 #include "polar.hh"
 #include "psk.hh"
 #include "qam.hh"
 #include "utils.hh"
 #include "xorshift.hh"
 
-int log2_int(int n) {
+inline int log2_int(int n) {
     if (n == 0) {
         std::cout << "Number is 0" << std::endl;
         return 0;
@@ -251,13 +251,14 @@ class Encoder : public EncoderInterface {
 
 public:
     Encoder(DSP::WritePCM<float> *pcm)
-        : pcm(pcm), noise_seq(noise_poly), crc(0xA8F4),
+        : pcm(pcm), crc(0xA8F4),
           bch({0b100011101, 0b101110111, 0b111110011, 0b101101001, 0b110111101,
                   0b111100111, 0b100101011, 0b111010111, 0b000010011,
                   0b101100101, 0b110001011, 0b101100011, 0b100011011,
                   0b100111111, 0b110001101, 0b100101101, 0b101011111,
                   0b111111001, 0b111000011, 0b100111001, 0b110101001,
-                  0b000011111, 0b110000111, 0b110110001}) {}
+                  0b000011111, 0b110000111, 0b110110001}),
+          noise_seq(noise_poly) {}
 
     int rate() final { return RATE; }
 
