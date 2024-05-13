@@ -36,8 +36,8 @@ int main(int argc, char **argv) {
 	channel = 0;
 	}
 	int file_length = audioFile.getNumSamplesPerChannel() * channel_count;
-	int symbol_length = (1280 * rate) / 8000;
-	int guard_length = symbol_length / 8;
+	// int symbol_length = (1280 * rate) / 8000;
+	// int guard_length = symbol_length / 8;
 	// int extended_length = symbol_length + guard_length;
 	int record_count = rate/50;
 	// int16_t file[file_length + 22 * record_count];
