@@ -10,6 +10,7 @@ Copyright 2022 Ahmet Inan <inan@aicodix.de>
 #include <iostream>
 #include <algorithm>
 #include <cassert>
+#include <cstring>
 
 namespace DSP { using std::abs; using std::min; using std::cos; using std::sin; }
 

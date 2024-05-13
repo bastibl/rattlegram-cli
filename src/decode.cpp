@@ -38,9 +38,9 @@ int main(int argc, char **argv) {
 	int file_length = audioFile.getNumSamplesPerChannel() * channel_count;
 	int symbol_length = (1280 * rate) / 8000;
 	int guard_length = symbol_length / 8;
-	int extended_length = symbol_length + guard_length;
+	// int extended_length = symbol_length + guard_length;
 	int record_count = rate/50;
-	//int16_t file[file_length + 22 * record_count];
+	// int16_t file[file_length + 22 * record_count];
 	int16_t* file = new int16_t[file_length + 22 * record_count];
 	for (int i = 0; i < file_length/channel_count; i++) {
 		for (int c = 0; c < channel_count; c++) {
@@ -163,7 +163,7 @@ int main(int argc, char **argv) {
 			int32_t mode = -1;
 			uint8_t call_sign[192] = {0}; 
 			uint8_t payload[170] = {0};
- 
+
 			switch (status) {
 				case 0:
 					break;
@@ -220,5 +220,5 @@ int main(int argc, char **argv) {
 		}
 	}
 	delete[] file;
-    return 0;
+	return 0;
 }

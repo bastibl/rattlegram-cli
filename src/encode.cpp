@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
     int carrier_freq = 1500;
     int output_bits = 16;
     int psk = 4;
-    char *out_file = "out.wav";
+    const char *out_file = "out.wav";
 
     if (argc < 3 || argc > 10) {
         std::cerr << "usage: " << argv[0] << " MESSAGE CALLSIGN [NOISE_SYMBOLS] [CARRIER_FREQUENCY] [RATE] [BITS] [CHANNEL] [MAPPING] [FILE] " << std::endl;
@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
         out_file = argv[9];
 
     char message[192] = {0};
-    for (int i = 0; i < mesg.length(); i++) {
+    for (unsigned long i = 0; i < mesg.length(); i++) {
         if (i < 192)
             message[i] = mesg[i];
     }
