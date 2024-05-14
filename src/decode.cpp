@@ -42,8 +42,10 @@ int main(int argc, char **argv) {
     // int guard_length = symbol_length / 8;
     // int extended_length = symbol_length + guard_length;
     int record_count = rate / 50;
-    // int16_t file[file_length + 22 * record_count];
-    int16_t *file = new int16_t[file_length + 22 * record_count];
+    int16_t file[file_length + 22 * record_count];
+    for (int i = 0; i < file_length + 22 * record_count; i++) {
+      file[i] = 0;
+    }
     for (int i = 0; i < file_length / channel_count; i++) {
         for (int c = 0; c < channel_count; c++) {
             file[i * channel_count + c] = audioFile.samples[c][i];
@@ -216,6 +218,5 @@ int main(int argc, char **argv) {
             }
         }
     }
-    delete[] file;
     return 0;
 }
