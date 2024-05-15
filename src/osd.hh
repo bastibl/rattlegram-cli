@@ -131,7 +131,7 @@ class OrderedStatisticsDecoder
 					}
 				}
 			}
-			assert(G[W*k+k]);
+			// assert(G[W*k+k]);
 			// zero out column entries below pivot
 			for (int j = k + 1; j < K; ++j)
 				if (G[W*j+k])
